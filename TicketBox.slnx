@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Core/">
+    <Project Path="Core/TicketBox.Application/TicketBox.Application.csproj" />
+    <Project Path="Core/TicketBox.Domain/TicketBox.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Infrastrucure/TicketBox.Persistence/TicketBox.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/Presentation/">
+    <Project Path="Presentaion/TicketBox.WebUI/TicketBox.WebUI.csproj" />
+  </Folder>
+</Solution>
