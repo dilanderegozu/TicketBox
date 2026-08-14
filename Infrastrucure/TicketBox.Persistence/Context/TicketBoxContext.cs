@@ -10,7 +10,8 @@ namespace TicketBox.Persistence.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=localhost;initial Catalog=DbTicketSphere;integrated security=true;trustservercertificate=true");
+            optionsBuilder.UseSqlServer(
+     "Server=localhost;Initial Catalog=DbTicketSphere;Integrated Security=True;TrustServerCertificate=True");
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Event> Events { get; set; }
