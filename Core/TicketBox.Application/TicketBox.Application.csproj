@@ -14,4 +14,8 @@
     <ProjectReference Include="..\TicketBox.Domain\TicketBox.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Mediator\" />
+  </ItemGroup>
+
 </Project>

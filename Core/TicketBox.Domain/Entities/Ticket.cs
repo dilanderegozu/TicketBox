@@ -7,11 +7,15 @@ namespace TicketBox.Domain.Entities
     public class Ticket
     {
         public int TicketId { get; set; }
-        public int EventId { get; set; }
-        public Event Event { get; set; }
-        public int AttendeeId { get; set; }
-        public Attendee Attendee { get; set; }
-        public DateTime PurchaseDate { get; set; }
-        public decimal Price { get; set; }
+
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
+
+        public int EventBlockPriceId { get; set; }
+        public EventBlockPrice EventBlockPrice { get; set; }
+
+        public string QrToken { get; set; }
+        public bool IsUsed { get; set; }
+        public DateTime? UsedAt { get; set; }
     }
 }
