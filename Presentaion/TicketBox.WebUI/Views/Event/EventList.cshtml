@@ -1,0 +1,31 @@
+﻿@model List<TicketBox.Application.Features.Mediator.Events.Results.GetEventQueryResult>
+@{
+    Layout = null;
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<table class="table table-bordered">
+    <tr>
+        <th>#</th>
+        <th>Etkinlik Adı</th>
+        <th>Konum</th>
+        <th>Kapasite</th>
+        <th>Fiyat</th>
+        <th>Sil</th>
+        <th>Güncelle</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.EventId</td>
+            <td>@item.Title</td>
+            <td>@item.Location</td>
+            <td>@item.Capacity</td>
+            <td>@item.Price</td>
+            <td><a href="/Event/DeleteEvent/@item.EventId" class="btn btn-danger">Sil</a></td>
+            <td><a href="/Event/UpdateEvent/@item.EventId" class="btn btn-success">Güncelle</a></td>
+        </tr>
+    }
+</table>
+<a href="/Event/CreateEvent/" class="btn btn-info">Yeni Etkinlik Girişi</a>
