@@ -1,14 +1,12 @@
-using TicketBox.Application.Features.CQRS.Categories.Handlers;
 using TicketBox.Application.Features.Mediator.Events.Queries;
+using TicketBox.Application.Interfaces;
 using TicketBox.Persistence.Context;
+using TicketBox.Persistence.Repositories;
+
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<GetCategoryQueryHandler>();
-builder.Services.AddScoped<GetByIdCategoryQueryHandler>();
-builder.Services.AddScoped<CreateCategoryCommandHandler>();
-builder.Services.AddScoped<UpdateCategoryCommandHandler>();
-builder.Services.AddScoped<RemoveCategoryCommandHandler>();
 builder.Services.AddDbContext<TicketBoxContext>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(GetEventQuery).Assembly);

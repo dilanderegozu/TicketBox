@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\TicketBox.Application\TicketBox.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastrucure\TicketBox.Persistence\TicketBox.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
