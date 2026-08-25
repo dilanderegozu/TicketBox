@@ -1,27 +1,23 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TicketBox.Application.Features.Mediator.Events.Commands;
-using TicketBox.Persistence.Context;
+using TicketBox.Application.Interfaces;
+using TicketBox.Domain.Entities;
 
 namespace TicketBox.Application.Features.Mediator.Events.Handlers
 {
-    public class RemoveEventCommandHandler:IRequestHandler<RemoveEventCommand>
+    public class RemoveEventCommandHandler : IRequestHandler<RemoveEventCommand>
     {
-        private readonly TicketBoxContext _ticketBoxContext;
+        private readonly IRepository<Event> _eventRepository;
 
-        public RemoveEventCommandHandler(TicketBoxContext ticketBoxContext)
+        public RemoveEventCommandHandler(IRepository<Event> eventRepository)
         {
-            _ticketBoxContext = ticketBoxContext;
+            _eventRepository = eventRepository;
         }
 
         public async Task Handle(RemoveEventCommand request, CancellationToken cancellationToken)
         {
-            var values = await _ticketBoxContext.Events.FindAsync(request.Id);
-            _ticketBoxContext.Events.Remove(values);
-            await _ticketBoxContext.SaveChangesAsync(cancellationToken);
+            var value = await _eventRepository.GetByIdAsync(request.Id);
+            await _eventRepository.RemoveAsync(value);
         }
     }
 }

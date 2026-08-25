@@ -1,26 +1,31 @@
 ﻿using MediatR;
 using TicketBox.Application.Features.Mediator.Tickets.Commands;
-using TicketBox.Persistence.Context;
+using TicketBox.Application.Interfaces;
+using TicketBox.Domain.Entities;
 
 namespace TicketBox.Application.Features.Mediator.Tickets.Handlers
 {
     public class UpdateTicketCommandHandler : IRequestHandler<UpdateTicketCommand>
     {
-        private readonly TicketBoxContext _context;
-        public UpdateTicketCommandHandler(TicketBoxContext context)
+       private readonly IRepository<Ticket> _ticketRepository;
+
+        public UpdateTicketCommandHandler(IRepository<Ticket> ticketRepository)
         {
-            _context = context;
+            _ticketRepository = ticketRepository;
         }
+
         public async Task Handle(UpdateTicketCommand request, CancellationToken cancellationToken)
         {
-            var values = await _context.Tickets.FindAsync(request.TicketId);
-
-            if (values == null)
+            var value = await _ticketRepository.GetByIdAsync(request.TicketId);
+            if (value is null)
                 return;
 
-            _context.Tickets.Update(values);
+            value.EventId = request.EventId;
+            value.AttendeeId = request.AttendeeId;
+            value.PurchaseDate = request.PurchaseDate;
+            value.Price = request.Price;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _ticketRepository.UpdateAsync(value);
         }
     }
 }

@@ -7,6 +7,6 @@
     <Project Path="Infrastrucure/TicketBox.Persistence/TicketBox.Persistence.csproj" />
   </Folder>
   <Folder Name="/Presentation/">
-    <Project Path="Presentaion/TicketBox.WebUI/TicketBox.WebUI.csproj" />
+    <Project Path="TicketBox.WebUI/TicketBox.WebUI.csproj" Id="95040b26-6e1d-4fa4-86bc-058f7a12a06b" />
   </Folder>
 </Solution>

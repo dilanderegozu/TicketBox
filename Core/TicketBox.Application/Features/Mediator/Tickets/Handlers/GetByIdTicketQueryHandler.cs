@@ -8,30 +8,34 @@ using System.Threading.Tasks;
 using TicketBox.Application.Features.Mediator.Events.Results;
 using TicketBox.Application.Features.Mediator.Tickets.Queries;
 using TicketBox.Application.Features.Mediator.Tickets.Results;
-using TicketBox.Persistence.Context;
+using TicketBox.Application.Interfaces;
+using TicketBox.Domain.Entities;
+
 
 namespace TicketBox.Application.Features.Mediator.Tickets.Handlers
 {
     public class GetByIdTicketQueryHandler : IRequestHandler<GetByIdTicketQuery, GetByIdTicketQueryResult>
     {
-        private readonly TicketBoxContext _context;
-        public GetByIdTicketQueryHandler(TicketBoxContext context)
+
+        private readonly IRepository<Ticket> _ticketRepository;
+
+        public GetByIdTicketQueryHandler(IRepository<Ticket> ticketRepository)
         {
-            _context = context;
+            _ticketRepository = ticketRepository;
         }
+
         public async Task<GetByIdTicketQueryResult> Handle(GetByIdTicketQuery request, CancellationToken cancellationToken)
         {
-            var value = await _context.Tickets
-               .Where(x => x.TicketId == request.Id)
-               .Select(x => new GetByIdTicketQueryResult
-               {
-                   EventId = x.EventId,
-                   AttendeeId = x.AttendeeId,
-                   Price = x.Price,
-                   TicketId = x.TicketId,
-                   PurchaseDate = x.PurchaseDate
-               }).FirstOrDefaultAsync(cancellationToken);
-            return value;
+            var values = await _ticketRepository.GetByIdAsync(request.Id);
+            return new GetByIdTicketQueryResult
+            {
+                EventId = values.EventId,
+                AttendeeId = values.AttendeeId,
+                Price = values.Price,
+                TicketId = values.TicketId,
+                PurchaseDate = values.PurchaseDate
+            };
+            
         }
     }
 }

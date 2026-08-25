@@ -1,22 +1,25 @@
 ﻿using MediatR;
 using TicketBox.Application.Features.Mediator.Events.Commands;
+using TicketBox.Application.Interfaces;
 using TicketBox.Domain.Entities;
-using TicketBox.Persistence.Context;
+
 
 namespace TicketBox.Application.Features.Mediator.Events.Handlers
 {
     public class CreateEventCommandHandler : IRequestHandler<CreateEventCommand>
     {
-        private readonly TicketBoxContext _ticketBoxContext;
+        private readonly IRepository<Event> _eventsRepository;
 
-        public CreateEventCommandHandler(TicketBoxContext ticketBoxContext)
+        public CreateEventCommandHandler(IRepository<Event> eventsRepository)
         {
-            _ticketBoxContext = ticketBoxContext;
+            _eventsRepository = eventsRepository;
         }
 
+    
         public async Task Handle(CreateEventCommand request, CancellationToken cancellationToken)
         {
-            var values = new Event
+
+            await _eventsRepository.CreateAsync(new Event
             {
                 Title = request.Title,
                 Description = request.Description,
@@ -26,9 +29,9 @@ namespace TicketBox.Application.Features.Mediator.Events.Handlers
                 Price = request.Price,
                 ImageUrl = request.ImageUrl,
                 CategoryId = request.CategoryId
-            };
-            await _ticketBoxContext.Events.AddAsync(values);
-            await _ticketBoxContext.SaveChangesAsync();
+            });
+           
+         
         }
     }
 }

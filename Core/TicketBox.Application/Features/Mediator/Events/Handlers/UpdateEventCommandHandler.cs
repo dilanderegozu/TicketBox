@@ -1,39 +1,36 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TicketBox.Application.Features.Mediator.Events.Commands;
-using TicketBox.Persistence.Context;
+using TicketBox.Application.Interfaces;
+using TicketBox.Domain.Entities;
 
 namespace TicketBox.Application.Features.Mediator.Events.Handlers
 {
     public class UpdateEventCommandHandler : IRequestHandler<UpdateEventCommand>
     {
-        private readonly TicketBoxContext _ticketBoxContext;
+        private readonly IRepository<Event> _eventRepository;
 
-        public UpdateEventCommandHandler(TicketBoxContext ticketBoxContext)
+        public UpdateEventCommandHandler(IRepository<Event> eventRepository)
         {
-            _ticketBoxContext = ticketBoxContext;
+            _eventRepository = eventRepository;
         }
 
         public async Task Handle(UpdateEventCommand request, CancellationToken cancellationToken)
         {
-            var values = await _ticketBoxContext.Events.FindAsync(request.EventId);
+            var value = await _eventRepository.GetByIdAsync(request.EventId);
 
-            if (values == null)
+            if (value is null)
                 return;
 
-            values.Title = request.Title;
-            values.Description = request.Description;
-            values.EventDate = request.EventDate;
-            values.Location = request.Location;
-            values.Capacity = request.Capacity;
-            values.Price = request.Price;
-            values.ImageUrl = request.ImageUrl;
-            values.CategoryId = request.CategoryId;
+            value.Title = request.Title;
+            value.Description = request.Description;
+            value.EventDate = request.EventDate;
+            value.Location = request.Location;
+            value.Capacity = request.Capacity;
+            value.Price = request.Price;
+            value.ImageUrl = request.ImageUrl;
+            value.CategoryId = request.CategoryId;
 
-            await _ticketBoxContext.SaveChangesAsync(cancellationToken);
+            await _eventRepository.UpdateAsync(value);
         }
     }
 }
